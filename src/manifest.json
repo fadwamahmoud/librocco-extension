@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Librocco extension",
+  "version": "1.0",
+  "description": "Finds book meta data from different sources",
+  "homepage_url": "https://test.libroc.co/",
+  "permissions": ["storage", "fetch", "http://*/*", "https://*/*"],
+  "default_locale": "en",
+  "content_scripts": [
+    {
+      "matches": ["*://test.libroc.co/*"],
+      "js": ["js/script.js"]
+    }
+  ]
+}
