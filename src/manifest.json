@@ -4,12 +4,19 @@
   "version": "1.0",
   "description": "Finds book meta data from different sources",
   "homepage_url": "https://test.libroc.co/",
-  "permissions": ["storage", "fetch", "http://*/*", "https://*/*"],
+  "host_permissions": ["*://*.libreriauniversitaria.it/*", "https://*/*/"],
+  "permissions": ["storage"],
   "default_locale": "en",
   "content_scripts": [
     {
       "matches": ["*://test.libroc.co/*"],
       "js": ["js/script.js"]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
 }
