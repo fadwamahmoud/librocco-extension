@@ -1,0 +1,26 @@
+{
+  "name": "librocco-extension",
+  "version": "1.0.0",
+  "description": "- Navigate to chrome://extensions/  - Enable developer mode  - Click Load Unpacked  - select the src folder of your extension to load it up  - Navigate to https://test.libroc.co/",
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "tsc && node ./dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fadwamahmoud/librocco-extension.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fadwamahmoud/librocco-extension/issues"
+  },
+  "homepage": "https://github.com/fadwamahmoud/librocco-extension#readme",
+  "devDependencies": {
+    "@types/chrome": "^0.0.241",
+    "typescript": "^5.1.6"
+  }
+}

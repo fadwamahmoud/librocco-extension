@@ -10,11 +10,12 @@
   "content_scripts": [
     {
       "matches": ["*://test.libroc.co/*"],
-      "js": ["js/script.js"]
+      "js": ["./dist/index.js"],
+      "type": "module"
     }
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "./dist/background.js"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
