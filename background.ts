@@ -42,3 +42,17 @@ chrome.runtime.onMessage.addListener(
     return true;
   }
 );
+
+chrome.runtime.onMessage.addListener(
+  (message: any, sender: chrome.runtime.MessageSender, senderResponse: (response?: any) => void) => {
+    // const isbn = 9783551551672;
+    const isbn = message.data || 9781338878929;
+    // const isbn = 9780060512804;
+    const url = `https://www.biblio.com/${isbn}`
+
+    fetchUrl(url, senderResponse);
+
+
+    return true;
+  }
+);

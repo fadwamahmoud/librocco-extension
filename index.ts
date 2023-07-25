@@ -1,4 +1,4 @@
-import { annasArchiveScraper, libreriauniversitariaScraper, openLibraryScraper, libGenScraper } from "./helpers/helpers"
+import { annasArchiveScraper, libreriauniversitariaScraper, openLibraryScraper, biblioScraper } from "./helpers/helpers"
 
 window.addEventListener('message', (event) => {
 
@@ -17,6 +17,7 @@ window.addEventListener('message', (event) => {
 
   }
 })
+
 chrome.runtime.onMessage.addListener(
   (message: any, sender: chrome.runtime.MessageSender, senderResponse: (response?: any) => void) => {
 
@@ -26,7 +27,8 @@ chrome.runtime.onMessage.addListener(
     const annasArchive = parsedResponse.url.includes("annas")
     const libreriauniversitaria = parsedResponse.url.includes("libreriauniversitaria")
     const openLibrary = parsedResponse.url.includes("openlibrary")
-    const libGen = parsedResponse.url.includes("libgen")
+    // const libGen = parsedResponse.url.includes("libgen")
+    const biblio = parsedResponse.url.includes("biblio")
     if (annasArchive) {
 
       const htmlDoc = parser.parseFromString(parsedResponse.body, "text/html");
@@ -43,11 +45,10 @@ chrome.runtime.onMessage.addListener(
       const book = openLibraryScraper(htmlDoc)
       console.log("Response from openLibrary:", book);
     }
-    if (libGen) {
+    if (biblio) {
       const htmlDoc = parser.parseFromString(parsedResponse.body, "text/html");
-      const book = libGenScraper(htmlDoc)
-      console.log("Response from libGen:", book);
+      const book = biblioScraper(htmlDoc)
+      console.log("Response from biblio:", book);
     }
-
   }
 )

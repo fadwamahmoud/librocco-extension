@@ -296,3 +296,37 @@ export function fetchUrl(url: string, senderResponse: (response?: any) => void) 
       }
       ));
 }
+
+
+export function biblioScraper(document: Document): BookEntry {
+
+
+  let book: BookEntry = {
+    isbn: "",
+    title: "",
+    authors: "",
+    price: 0,
+    publisher: "",
+    year: "",
+  };
+
+  const itemProps = ["name", "author", "about", "datePublished", "isbn"];
+
+  const result: Record<string, string> = {};
+
+  for (const prop of itemProps) {
+    const element: HTMLMetaElement | null = document.querySelector(`[itemprop=${prop}]`);
+
+    if (element) {
+      result[prop] = element.content;
+    }
+  }
+
+  book.authors = result["author"]
+  book.title = result["name"]
+  book.publisher = result["about"].split(",")[0]
+  book.year = result["datePublished"]
+  book.isbn = result["isbn"]
+
+  return book;
+}
