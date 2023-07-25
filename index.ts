@@ -1,38 +1,53 @@
 import { annasArchiveScraper, libreriauniversitariaScraper, openLibraryScraper, libGenScraper } from "./helpers/helpers"
-chrome.runtime.sendMessage(
-  { data: "Message from content script" },
-  (response) => {
-    // response;
+
+window.addEventListener('message', (event) => {
+
+  if (event.source !== window) return
+
+  // message will be sent from client as such: window.postMessage({ type: 'FROM_PAGE', isbn: 124321532 }, '*');
+  if (event.data.type && event.data.type === 'FROM_PAGE' && event.data.isbn) {
+    chrome.runtime.sendMessage(
+      { data: event.data.isbn },
+      // (response) => {
+      //   console.log(response)
+
+      // }
+    );
+
+
+  }
+})
+chrome.runtime.onMessage.addListener(
+  (message: any, sender: chrome.runtime.MessageSender, senderResponse: (response?: any) => void) => {
+
     const parser = new DOMParser();
-    const responses: { url: string, body: string }[] = JSON.parse(response)
-    const annasArchive = responses.find((r) => r.url.includes("annas"))
-    const libreriauniversitaria = responses.find((r) => r.url.includes("libreriauniversitaria"))
-    const openLibrary = responses.find((r) => r.url.includes("openlibrary"))
-    const libGen = responses.find((r) => r.url.includes("libgen"))
+    const parsedResponse: { url: string, body: string } = JSON.parse(message)
+    // checking for the url could also be replaced with checking for the response message
+    const annasArchive = parsedResponse.url.includes("annas")
+    const libreriauniversitaria = parsedResponse.url.includes("libreriauniversitaria")
+    const openLibrary = parsedResponse.url.includes("openlibrary")
+    const libGen = parsedResponse.url.includes("libgen")
     if (annasArchive) {
 
-      const htmlDoc = parser.parseFromString(annasArchive.body, "text/html");
-      // console.log(JSON.parse(response))
+      const htmlDoc = parser.parseFromString(parsedResponse.body, "text/html");
       const book = annasArchiveScraper(htmlDoc)
       console.log("Response from annas archive:", book);
     }
     if (libreriauniversitaria) {
-      const htmlDoc = parser.parseFromString(libreriauniversitaria.body, "text/html");
-      // console.log(JSON.parse(response))
+      const htmlDoc = parser.parseFromString(parsedResponse.body, "text/html");
       const book = libreriauniversitariaScraper(htmlDoc)
       console.log("Response from libreriauniversitaria:", book);
     }
     if (openLibrary) {
-      const htmlDoc = parser.parseFromString(openLibrary.body, "text/html");
-      // console.log(JSON.parse(response))
+      const htmlDoc = parser.parseFromString(parsedResponse.body, "text/html");
       const book = openLibraryScraper(htmlDoc)
       console.log("Response from openLibrary:", book);
     }
     if (libGen) {
-      const htmlDoc = parser.parseFromString(libGen.body, "text/html");
-      // console.log(JSON.parse(response))
+      const htmlDoc = parser.parseFromString(parsedResponse.body, "text/html");
       const book = libGenScraper(htmlDoc)
       console.log("Response from libGen:", book);
     }
+
   }
-);
+)

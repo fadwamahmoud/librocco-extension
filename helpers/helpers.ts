@@ -83,7 +83,6 @@ export function annasArchiveScraper(rawHTML: Document): BookEntry {
             book.year = publisher_and_edition.length > 1 ? publisher_and_edition[publisher_and_edition.length - 1] : "";
           }
 
-          console.log("result:", book);
         } catch (error) {
           console.error("Parsing error:", error);
         }
@@ -275,4 +274,25 @@ export function libGenScraper(doc: Document): genLibData | null {
   });
 
   return extractedData;
+}
+
+
+
+export function fetchUrl(url: string, senderResponse: (response?: any) => void) {
+  fetch(url)
+    .then((res) => res.text().then((text) => ({ url: url, body: text }))
+      .then((res) => {
+        // handle serialization here because otherwise
+        // the html gets messed up in the sending process
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+          const activeTab = tabs[0];
+          console.log({ activeTab });
+          if (activeTab.id) {
+            chrome.tabs.sendMessage(activeTab.id, JSON.stringify(res));
+
+          }
+        });
+        senderResponse(`message sent back from ${url}`);
+      }
+      ));
 }

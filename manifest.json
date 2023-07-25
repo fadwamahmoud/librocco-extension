@@ -9,7 +9,7 @@
   "default_locale": "en",
   "content_scripts": [
     {
-      "matches": ["*://test.libroc.co/*"],
+      "matches": ["*://test.libroc.co/*", "*://localhost:*/*"],
       "js": ["./dist/index.js"],
       "type": "module"
     }
