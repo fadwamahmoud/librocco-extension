@@ -12,7 +12,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
   },
-  mode: "development",
+  mode: "production",
   module: {
     rules: [
       {
