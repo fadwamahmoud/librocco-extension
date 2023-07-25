@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "- Navigate to chrome://extensions/  - Enable developer mode  - Click Load Unpacked  - select the src folder of your extension to load it up  - Navigate to https://test.libroc.co/",
   "main": "index.ts",
-  "type": "module",
   "scripts": {
     "start": "tsc && node ./dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,11 @@
   },
   "homepage": "https://github.com/fadwamahmoud/librocco-extension#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.22.9",
     "@types/chrome": "^0.0.241",
-    "typescript": "^5.1.6"
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }
